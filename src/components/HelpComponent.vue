@@ -1,14 +1,13 @@
 <template>
   <div>
-    <router-view></router-view>
+    <h1>Help Component</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "App",
-  components: {},
+  name: "HelpComponent",
 };
 </script>
 
-<style></style>
+<style scoped></style>

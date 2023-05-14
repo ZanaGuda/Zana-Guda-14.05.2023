@@ -1,14 +1,13 @@
 <template>
   <div>
-    <router-view></router-view>
+    <h1>Home Component</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "App",
-  components: {},
+  name: "HomeComponent",
 };
 </script>
 
-<style></style>
+<style scoped></style>

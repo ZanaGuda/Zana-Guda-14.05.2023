@@ -1,14 +1,13 @@
 <template>
   <div>
-    <router-view></router-view>
+    <h1>Header Component</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: "App",
-  components: {},
+  name: "HeaderComponent",
 };
 </script>
 
-<style></style>
+<style scoped></style>
