@@ -26,7 +26,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #888; /* Add the black line */
+  border-bottom: 1px solid #888;
 }
 
 .logo-container {
