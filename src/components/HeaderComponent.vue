@@ -9,16 +9,10 @@
       <span class="logo-text">Student Information System</span>
     </div>
     <div class="logout-container">
-      <router-link to="/login">Logout</router-link>
+      <router-link to="/login" class="logout-button">Logout</router-link>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {},
-};
-</script>
 
 <style scoped>
 .navbar {
@@ -50,5 +44,19 @@ export default {
 .logout-container {
   display: flex;
   align-items: center;
+}
+
+.logout-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #e6e6e6;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+
+.logout-button:hover {
+  background-color: #d4d4d4;
 }
 </style>
