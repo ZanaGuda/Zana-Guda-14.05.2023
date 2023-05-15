@@ -4,7 +4,6 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 import Home from "./components/HomeComponent.vue";
-import Header from "./components/HeaderComponent.vue";
 import Login from "./components/LoginComponent.vue";
 import Archive from "./components/ArchiveComponent.vue";
 import Help from "./components/HelpComponent.vue";
@@ -15,7 +14,6 @@ const routes = [
     { path: "/", redirect: "/login" },
     { path: "/login", component: Login },
     { path: "/home", component: Home },
-    { path: "/header", component: Header },
     { path: "/archive", component: Archive },
     { path: "/help", component: Help },
     { path: "/students", component: Students },
