@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div class="header">
     <div class="logo-container">
       <img
         src="../assets/student_management_information_logo.png"
@@ -15,7 +15,7 @@
 </template>
 
 <style scoped>
-.navbar {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,6 +39,7 @@
 
 .logo-text {
   font-weight: bold;
+  font-family: "Montserrat";
 }
 
 .logout-container {
@@ -54,6 +55,7 @@
   text-decoration: none;
   color: #000;
   font-weight: bold;
+  font-family: "Montserrat";
 }
 
 .logout-button:hover {

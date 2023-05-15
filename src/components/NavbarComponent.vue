@@ -1,6 +1,5 @@
 <template>
-  <div class="header">
-    <router-view></router-view>
+  <div class="navbar">
     <router-link to="/home">Home</router-link>
     <router-link to="/students">Students</router-link>
     <router-link to="/archive">Archive</router-link>
@@ -9,25 +8,26 @@
 </template>
 
 <style scoped>
-.header {
+.navbar {
   display: flex;
   align-items: center;
   padding: 10px;
   margin-bottom: 30px;
+  font-family: "Montserrat";
 }
 
-.header a {
+.navbar a {
   margin-right: 10px;
   padding: 5px 10px;
   text-decoration: none;
   color: #333;
 }
 
-.header a:hover {
+.navbar a:hover {
   background-color: #ddd;
 }
 
-.header a:not(:last-child)::after {
+.navbar a:not(:last-child)::after {
   content: "|";
   margin-left: 10px;
   color: #888;

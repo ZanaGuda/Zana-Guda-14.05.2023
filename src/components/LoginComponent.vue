@@ -18,13 +18,23 @@
         label-width="98px"
         class="login-form"
       >
-        <el-form-item label="Username" prop="username" required>
+        <el-form-item
+          label="Username"
+          prop="username"
+          required
+          class="el-form__label"
+        >
           <el-input
             v-model="form.username"
             placeholder="Enter your username"
           ></el-input>
         </el-form-item>
-        <el-form-item label="Password" prop="password" required>
+        <el-form-item
+          label="Password"
+          prop="password"
+          required
+          class="el-form__label"
+        >
           <el-input
             type="password"
             v-model="form.password"
@@ -112,9 +122,7 @@ export default {
 .login-form {
   max-width: 300px;
 }
-.el-form-item__label::before {
-  display: none;
-}
+
 .student-information-system__logo {
   transform: rotate(90deg);
   border-radius: 10px;
@@ -163,5 +171,12 @@ export default {
   color: black;
   background: #e6e6e6;
   border: none;
+}
+.el-form__label {
+  font-size: 16px;
+  font-family: "Montserrat";
+}
+.el-form__label::before {
+  display: none;
 }
 </style>
