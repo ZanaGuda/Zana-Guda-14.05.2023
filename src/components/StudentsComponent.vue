@@ -3,7 +3,7 @@
     <HeaderComponent></HeaderComponent>
     <NavbarComponent></NavbarComponent>
     <el-table
-      :data="nowTableData"
+      :data="tableData"
       border
       style="width: 100%"
       empty-text="No data available"
@@ -40,7 +40,20 @@ export default {
   name: "HomeComponent",
   data() {
     return {
-      tableData: [],
+      tableData: [
+        {
+          index: "1",
+          name: "Zana Guda",
+          DoB: "2002-01-28",
+          muncipality: "Prishtina",
+        },
+        {
+          index: "2",
+          name: "Andi Ahmeti",
+          DoB: "2002-11-01",
+          muncipality: "Ferizaji",
+        },
+      ],
 
       name: "",
       DoB: "",
