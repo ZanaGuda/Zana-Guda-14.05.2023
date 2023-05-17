@@ -13,7 +13,7 @@
       <div class="help-component__contact">
         <h3 class="help-component__contact-title">Contact Us</h3>
         <ul class="help-component__contact-list">
-          <li>Email: support@yourcompany.com</li>
+          <li>Email: support@hotelkey.com</li>
           <li>Phone: 1-800-123-4567</li>
           <li>Live Chat: Visit our website and click on the chat icon</li>
         </ul>
