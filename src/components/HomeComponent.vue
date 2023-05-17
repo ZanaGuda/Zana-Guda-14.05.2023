@@ -2,8 +2,10 @@
   <div>
     <HeaderComponent></HeaderComponent>
     <NavbarComponent></NavbarComponent>
+    <el-input placeholder="search" v-model="input"></el-input>
+
     <el-table
-      :data="tableData"
+      :data="filteredData"
       border
       style="width: 100%"
       empty-text="No data available"
@@ -62,7 +64,21 @@ export default {
       id: "",
     };
   },
-
+  computed: {
+    filteredData() {
+      if (!this.input) {
+        return this.tableData;
+      }
+      const searchString = this.input.toLowerCase();
+      return this.tableData.filter((item) => {
+        return (
+          item.name.toLowerCase().includes(searchString) ||
+          item.muncipality.toLowerCase().includes(searchString) ||
+          item.index.includes(searchString)
+        );
+      });
+    },
+  },
   methods: {},
   components: { HeaderComponent, NavbarComponent },
 };
