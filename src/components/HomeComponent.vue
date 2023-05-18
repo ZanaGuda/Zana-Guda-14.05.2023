@@ -94,7 +94,62 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="Actions">
+        <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="editData(scope.row)"
+            >Edit</el-button
+          >
+          <el-button type="danger" size="mini" @click="confirmDelete(scope.row)"
+            >Delete</el-button
+          >
+        </template>
+      </el-table-column>
     </el-table>
+    <el-dialog title="Edit Student" :visible.sync="editDialogVisible">
+      <el-form
+        :model="editForm"
+        ref="editForm"
+        :rules="formRules"
+        label-width="100px"
+      >
+        <el-form-item label="Name" prop="name">
+          <el-input v-model="editForm.name" />
+        </el-form-item>
+        <el-form-item label="DoB" prop="DoB">
+          <el-input v-model="editForm.DoB" type="date" />
+        </el-form-item>
+        <el-form-item label="Muncipality" prop="muncipality">
+          <el-select
+            v-model="editForm.muncipality"
+            placeholder="Select Muncipality"
+          >
+            <el-option
+              v-for="option in editForm.muncipalityOptions"
+              :key="option"
+              :label="option"
+              :value="option"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelEdit">Cancel</el-button>
+        <el-button type="primary" @click="saveEdit">Save</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      title="Delete Confirmation"
+      :visible.sync="deleteDialogVisible"
+      width="30%"
+      @close="resetDeleteConfirmation"
+    >
+      <span>Are you sure you want to delete the Selected User?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelDelete">Cancel</el-button>
+        <el-button type="danger" @click="deleteRow">Yes</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -109,6 +164,24 @@ export default {
       muncipality: "",
       input: "",
       id: "",
+      editDialogVisible: false,
+      editForm: {
+        index: "",
+        name: "",
+        DoB: "",
+        muncipalityOptions: [
+          "Prizreni",
+          "Prishtina",
+          "Peja",
+          "Gjilan",
+          "Gjakova",
+          "Ferizaj",
+          "Mitrovica",
+        ],
+      },
+      editedRowIndex: null,
+      deleteDialogVisible: false,
+      rowToDelete: null,
       tableData: [
         {
           index: "1",
@@ -185,6 +258,58 @@ export default {
         }
       });
     },
+    editData(row) {
+      this.editForm = {
+        ...row,
+        muncipalityOptions: [
+          "Prizreni",
+          "Prishtina",
+          "Peja",
+          "Gjilan",
+          "Gjakova",
+          "Ferizaj",
+          "Mitrovica",
+        ],
+      };
+      this.editedRowIndex = this.tableData.indexOf(row);
+      this.editDialogVisible = true;
+    },
+    saveEdit() {
+      this.$refs.editForm.validate((valid) => {
+        if (valid) {
+          this.tableData.splice(this.editedRowIndex, 1, { ...this.editForm });
+          this.cancelEdit();
+        }
+      });
+    },
+    cancelEdit() {
+      this.editForm = {
+        index: "",
+        name: "",
+        DoB: "",
+        muncipality: "",
+      };
+      this.editedRowIndex = null;
+      this.editDialogVisible = false;
+    },
+    confirmDelete(row) {
+      this.rowToDelete = row;
+      this.deleteDialogVisible = true;
+    },
+    cancelDelete() {
+      this.rowToDelete = null;
+      this.deleteDialogVisible = false;
+    },
+    deleteRow() {
+      const index = this.tableData.indexOf(this.rowToDelete);
+      if (index > -1) {
+        this.tableData.splice(index, 1);
+      }
+      this.cancelDelete();
+    },
+    resetDeleteConfirmation() {
+      this.rowToDelete = null;
+    },
     nameBasedSort() {
       if (this.isAscending) {
         this.tableData.sort((a, b) => b.name.localeCompare(a.name));
@@ -252,10 +377,10 @@ export default {
 .el-input .search-input {
   border-radius: 20px;
 }
-.nameBasedSort {
+/* .nameBasedSort {
   display: flex;
   gap: 290px;
-}
+} */
 .nameBasedSortIcon {
   width: 10px;
   cursor: pointer;
