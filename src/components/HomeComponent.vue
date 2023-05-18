@@ -59,15 +59,26 @@
       </el-table-column>
       <el-table-column prop="name">
         <template slot="header">
-          <div>
+          <div class="nameBasedSort">
             <span>Name</span>
+            <img
+              src="../assets/up-and-down-arrow.png"
+              @click="nameBasedSort"
+              class="nameBasedSortIcon"
+            />
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="DoB">
         <template slot="header">
-          <div>
+          <div class="DoBBasedSort">
             <span>DoB</span>
+            <img
+              src="../assets/up-and-down-arrow.png"
+              @click="DoBBasedSort"
+              style="width: 10px; cursor: pointer"
+              class="DoBBasedSort"
+            />
           </div>
         </template>
       </el-table-column>
@@ -75,6 +86,11 @@
         <template slot="header">
           <div>
             <span>Muncipality</span>
+            <img
+              src="../assets/up-and-down-arrow.png"
+              @click="muncipalityBasedSort"
+              style="width: 10px; cursor: pointer"
+            />
           </div>
         </template>
       </el-table-column>
@@ -169,6 +185,34 @@ export default {
         }
       });
     },
+    nameBasedSort() {
+      if (this.isAscending) {
+        this.tableData.sort((a, b) => b.name.localeCompare(a.name));
+      } else {
+        this.tableData.sort((a, b) => a.name.localeCompare(b.name));
+      }
+      this.isAscending = !this.isAscending;
+    },
+    DoBBasedSort() {
+      if (this.isAscending) {
+        this.tableData.sort((a, b) => b.DoB.localeCompare(a.DoB));
+      } else {
+        this.tableData.sort((a, b) => a.DoB.localeCompare(b.DoB));
+      }
+      this.isAscending = !this.isAscending;
+    },
+    muncipalityBasedSort() {
+      if (this.isAscending) {
+        this.tableData.sort((a, b) =>
+          b.muncipality.localeCompare(a.muncipality)
+        );
+      } else {
+        this.tableData.sort((a, b) =>
+          a.muncipality.localeCompare(b.muncipality)
+        );
+      }
+      this.isAscending = !this.isAscending;
+    },
   },
   components: { HeaderComponent, NavbarComponent },
 };
@@ -207,5 +251,14 @@ export default {
 }
 .el-input .search-input {
   border-radius: 20px;
+}
+.nameBasedSort {
+  display: flex;
+  gap: 290px;
+}
+.nameBasedSortIcon {
+  width: 10px;
+  cursor: pointer;
+  height: 15px;
 }
 </style>
