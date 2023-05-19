@@ -176,7 +176,7 @@ export default {
   font-size: 16px;
   font-family: "Montserrat";
 }
-.el-form__label::before {
+.label.el-form-item__label:before {
   display: none;
 }
 </style>
