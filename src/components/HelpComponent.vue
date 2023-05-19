@@ -32,11 +32,15 @@ export default {
 </script>
 
 <style scoped>
+.navbar {
+  margin-top: 10px;
+}
 .help-component {
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 5px;
   font-family: "Montserrat";
+  margin-bottom: 30px;
 }
 
 .help-component__title {

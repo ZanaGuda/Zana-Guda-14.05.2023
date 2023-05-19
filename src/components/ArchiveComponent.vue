@@ -247,18 +247,6 @@ export default {
 };
 </script>
 <style scoped>
-/* .muncipality_sort {
-  display: flex;
-  gap: 238px;
-}
-.dob_sort {
-  display: flex;
-  gap: 284px;
-}
-.name_sort {
-  display: flex;
-  gap: 278px;
-} */
 .sort-arrow-icon {
   width: 12px;
   cursor: pointer;
@@ -271,7 +259,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 .search-container {
@@ -299,9 +287,7 @@ export default {
 .el-input__inner::placeholder {
   color: black;
 }
-</style>
 
-<style scoped>
 .header {
   display: flex;
   justify-content: space-between;
@@ -336,10 +322,7 @@ export default {
 .el-input .search-input {
   border-radius: 20px;
 }
-/* .nameBasedSort {
-  display: flex;
-  gap: 290px;
-} */
+
 .nameBasedSortIcon {
   width: 10px;
   cursor: pointer;

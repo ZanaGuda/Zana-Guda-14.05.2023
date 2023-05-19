@@ -374,7 +374,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 .search-container {
@@ -436,10 +436,6 @@ export default {
 .el-input .search-input {
   border-radius: 20px;
 }
-/* .nameBasedSort {
-  display: flex;
-  gap: 290px;
-} */
 .nameBasedSortIcon {
   width: 10px;
   cursor: pointer;
