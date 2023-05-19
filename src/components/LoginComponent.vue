@@ -18,25 +18,29 @@
         label-width="98px"
         class="login-form"
       >
-        <div class="el-form__label">
-          <p label="Username" prop="username">Username</p>
+        <el-form-item
+          label="Username"
+          prop="username"
+          required
+          class="el-form__label"
+        >
           <el-input
             v-model="form.username"
             placeholder="Enter your username"
           ></el-input>
-        </div>
-
-        <div class="el-form__label">
-          <p label="Password" prop="password" class="password_label">
-            Password
-          </p>
+        </el-form-item>
+        <el-form-item
+          label="Password"
+          prop="password"
+          required
+          class="el-form__label"
+        >
           <el-input
             type="password"
             v-model="form.password"
             placeholder="Enter your password"
           ></el-input>
-        </div>
-
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" :disabled="!isFormValid" @click="login">
             <img src="../assets/login-icon.png" class="login-icon" />
@@ -118,7 +122,9 @@ export default {
 .login-form {
   max-width: 300px;
 }
-
+.el-form-item__label::before {
+  display: none;
+}
 .student-information-system__logo {
   transform: rotate(90deg);
   border-radius: 10px;
@@ -142,7 +148,7 @@ export default {
 }
 
 .el-form.login-form {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 .el-form-item__label {
   width: 98px;
@@ -169,13 +175,6 @@ export default {
   border: none;
 }
 .el-form__label {
-  font-size: 16px;
   font-family: "Montserrat";
-  display: flex;
-  gap: 13px;
-  align-items: center;
-}
-.password_label {
-  margin-left: 7px;
 }
 </style>
