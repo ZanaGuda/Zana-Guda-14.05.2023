@@ -2,21 +2,25 @@
   <div>
     <HeaderComponent></HeaderComponent>
     <NavbarComponent></NavbarComponent>
-    <div class="header">
-      <el-input
-        placeholder="search"
-        v-model="input"
-        class="search-input"
-        prefix-icon="el-icon-search"
-      ></el-input>
-      <el-button
-        type="text"
-        @click="dialogFormVisible = true"
-        class="register-button"
-        >Register New Student</el-button
-      >
+    <div class="search-register-container">
+      <div class="search-container">
+        <el-input
+          placeholder="Search"
+          v-model="input"
+          class="search-input"
+          prefix-icon="el-icon-search"
+        ></el-input>
+      </div>
+      <div class="register-container">
+        <el-button
+          type="text"
+          class="register-button"
+          @click="dialogFormVisible = true"
+        >
+          Register New Student
+        </el-button>
+      </div>
     </div>
-
     <el-dialog title="Register new student" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="formRules" ref="form">
         <el-form-item label="Name" prop="name">
@@ -25,11 +29,7 @@
         <el-form-item label="DoB" prop="DoB">
           <el-input placeholder="DoB" v-model="form.DoB" type="date" />
         </el-form-item>
-        <el-form-item
-          label="Muncipality"
-          prop="muncipality"
-          class="muncipality"
-        >
+        <el-form-item label="Muncipality" prop="muncipality">
           <el-select
             v-model="form.muncipality"
             placeholder="Select Muncipality"
@@ -49,47 +49,46 @@
         <el-button type="primary" @click="saveData('form')">Confirm</el-button>
       </span>
     </el-dialog>
+
     <el-table
-      :data="filteredData"
+      :data="nowTableData"
       border
       style="width: 100%"
       empty-text="No data available"
     >
-      <el-table-column prop="index" label="Index" width="180">
-      </el-table-column>
+      <el-table-column prop="index" label="Index" width="180"></el-table-column>
       <el-table-column prop="name">
         <template slot="header">
-          <div class="nameBasedSort">
+          <div class="name_sort">
             <span>Name</span>
             <img
               src="../assets/up-and-down-arrow.png"
               @click="nameBasedSort"
-              class="nameBasedSortIcon"
+              class="sort-arrow-icon"
             />
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="DoB">
         <template slot="header">
-          <div class="DoBBasedSort">
+          <div class="dob_sort">
             <span>DoB</span>
             <img
               src="../assets/up-and-down-arrow.png"
               @click="DoBBasedSort"
-              style="width: 10px; cursor: pointer"
-              class="DoBBasedSort"
+              class="sort-arrow-icon"
             />
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="muncipality">
         <template slot="header">
-          <div>
+          <div class="muncipality_sort">
             <span>Muncipality</span>
             <img
               src="../assets/up-and-down-arrow.png"
               @click="muncipalityBasedSort"
-              style="width: 10px; cursor: pointer"
+              class="sort-arrow-icon"
             />
           </div>
         </template>
@@ -105,6 +104,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <el-dialog title="Edit Student" :visible.sync="editDialogVisible">
       <el-form
         :model="editForm"
@@ -120,15 +120,16 @@
         </el-form-item>
         <el-form-item label="Muncipality" prop="muncipality">
           <el-select
-            v-model="editForm.muncipality"
+            v-model="form.muncipality"
             placeholder="Select Muncipality"
           >
-            <el-option
-              v-for="option in editForm.muncipalityOptions"
-              :key="option"
-              :label="option"
-              :value="option"
-            ></el-option>
+            <el-option label="Prizreni" value="Prizreni"></el-option>
+            <el-option label="Prishtina" value="Prishtina"></el-option>
+            <el-option label="Peja" value="Peja"></el-option>
+            <el-option label="Gjilan" value="Gjilan"></el-option>
+            <el-option label="Gjakova" value="Gjakova"></el-option>
+            <el-option label="Ferizaj" value="Ferizaj"></el-option>
+            <el-option label="Mitrovica" value="Mitrovica"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -150,15 +151,26 @@
         <el-button type="danger" @click="deleteRow">Yes</el-button>
       </span>
     </el-dialog>
+    <el-pagination
+      layout="prev, pager, next"
+      :current-page.sync="currentPage"
+      :page-size="3"
+      :total="filteredData.length"
+    >
+    </el-pagination>
   </div>
 </template>
 <script>
-import HeaderComponent from "./HeaderComponent.vue";
 import NavbarComponent from "./NavbarComponent.vue";
+import HeaderComponent from "./HeaderComponent.vue";
+
 export default {
   name: "HomeComponent",
   data() {
     return {
+      tableData: [],
+      isAscending: false,
+      currentPage: 1,
       name: "",
       DoB: "",
       muncipality: "",
@@ -169,48 +181,19 @@ export default {
         index: "",
         name: "",
         DoB: "",
-        muncipalityOptions: [
-          "Prizreni",
-          "Prishtina",
-          "Peja",
-          "Gjilan",
-          "Gjakova",
-          "Ferizaj",
-          "Mitrovica",
-        ],
+        muncipality: "",
       },
       editedRowIndex: null,
       deleteDialogVisible: false,
       rowToDelete: null,
-      tableData: [
-        {
-          index: "1",
-          name: "Zana Guda",
-          DoB: "2002-01-28",
-          muncipality: "Prishtina",
-        },
-        {
-          index: "2",
-          name: "Andi Ahmeti",
-          DoB: "2002-11-01",
-          muncipality: "Ferizaji",
-        },
-      ],
       form: {
         name: "",
         DoB: "",
         muncipality: "",
-        muncipalityOptions: [
-          "Prizreni",
-          "Prishtina",
-          "Peja",
-          "Gjilan",
-          "Gjakova",
-          "Ferizaj",
-          "Mitrovica",
-        ],
       },
       dialogFormVisible: false,
+      formLabelWidth: "120px",
+      pageSize: 3,
       formRules: {
         name: [
           { required: true, message: "Please enter the name", trigger: "blur" },
@@ -228,6 +211,13 @@ export default {
       },
     };
   },
+  created() {
+    // Load data from local storage when component is created
+    const savedData = localStorage.getItem("tableData");
+    if (savedData) {
+      this.tableData = JSON.parse(savedData);
+    }
+  },
   computed: {
     filteredData() {
       if (!this.input) {
@@ -242,35 +232,17 @@ export default {
         );
       });
     },
-  },
-  methods: {
-    saveData() {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          const data = {
-            index: (this.tableData.length + 1).toString(),
-            name: this.form.name,
-            DoB: this.form.DoB,
-            muncipality: this.form.muncipality,
-          };
-          this.tableData.push(data);
-          this.dialogFormVisible = false;
-        }
-      });
+    nowTableData() {
+      return this.filteredData.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.currentPage * this.pageSize
+      );
     },
+  },
+
+  methods: {
     editData(row) {
-      this.editForm = {
-        ...row,
-        muncipalityOptions: [
-          "Prizreni",
-          "Prishtina",
-          "Peja",
-          "Gjilan",
-          "Gjakova",
-          "Ferizaj",
-          "Mitrovica",
-        ],
-      };
+      this.editForm = { ...row };
       this.editedRowIndex = this.tableData.indexOf(row);
       this.editDialogVisible = true;
     },
@@ -279,6 +251,7 @@ export default {
         if (valid) {
           this.tableData.splice(this.editedRowIndex, 1, { ...this.editForm });
           this.cancelEdit();
+          localStorage.setItem("tableData", JSON.stringify(this.tableData));
         }
       });
     },
@@ -306,42 +279,114 @@ export default {
         this.tableData.splice(index, 1);
       }
       this.cancelDelete();
+      localStorage.setItem("tableData", JSON.stringify(this.tableData));
     },
     resetDeleteConfirmation() {
       this.rowToDelete = null;
     },
     nameBasedSort() {
       if (this.isAscending) {
-        this.tableData.sort((a, b) => b.name.localeCompare(a.name));
+        this.nowTableData.sort((a, b) => b.name.localeCompare(a.name));
       } else {
-        this.tableData.sort((a, b) => a.name.localeCompare(b.name));
+        this.nowTableData.sort((a, b) => a.name.localeCompare(b.name));
       }
       this.isAscending = !this.isAscending;
     },
     DoBBasedSort() {
       if (this.isAscending) {
-        this.tableData.sort((a, b) => b.DoB.localeCompare(a.DoB));
+        this.nowTableData.sort((a, b) => b.DoB.localeCompare(a.DoB));
       } else {
-        this.tableData.sort((a, b) => a.DoB.localeCompare(b.DoB));
+        this.nowTableData.sort((a, b) => a.DoB.localeCompare(b.DoB));
       }
       this.isAscending = !this.isAscending;
     },
     muncipalityBasedSort() {
       if (this.isAscending) {
-        this.tableData.sort((a, b) =>
+        this.nowTableData.sort((a, b) =>
           b.muncipality.localeCompare(a.muncipality)
         );
       } else {
-        this.tableData.sort((a, b) =>
+        this.nowTableData.sort((a, b) =>
           a.muncipality.localeCompare(b.muncipality)
         );
       }
       this.isAscending = !this.isAscending;
     },
+
+    saveData() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          const data = {
+            index: (this.tableData.length + 1).toString(),
+            name: this.form.name,
+            DoB: this.form.DoB,
+            muncipality: this.form.muncipality,
+          };
+          this.tableData.push(data);
+          this.dialogFormVisible = false;
+          localStorage.setItem("tableData", JSON.stringify(this.tableData));
+        }
+      });
+    },
   },
   components: { HeaderComponent, NavbarComponent },
 };
 </script>
+<style scoped>
+.muncipality_sort {
+  display: flex;
+  gap: 238px;
+}
+.dob_sort {
+  display: flex;
+  gap: 284px;
+}
+.name_sort {
+  display: flex;
+  gap: 278px;
+}
+.sort-arrow-icon {
+  width: 12px;
+  cursor: pointer;
+}
+.el-pagination {
+  display: flex;
+  justify-content: end;
+}
+.search-register-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.search-container {
+  width: 480px;
+  margin-right: 10px;
+}
+
+.register-container {
+  flex: 0 0 auto;
+}
+
+.search-input {
+  border-radius: 20px;
+}
+
+.register-button {
+  background-color: #f2f2f2;
+}
+.el-button--text {
+  color: black;
+}
+.el-input--prefix .el-input__inner {
+  border-radius: 20px;
+}
+.el-input__inner::placeholder {
+  color: black;
+}
+</style>
+
 <style scoped>
 .header {
   display: flex;
