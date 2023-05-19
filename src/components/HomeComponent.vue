@@ -59,36 +59,36 @@
       <el-table-column prop="index" label="Index" width="180"></el-table-column>
       <el-table-column prop="name">
         <template slot="header">
-          <div class="name_sort">
+          <div>
             <span>Name</span>
             <img
               src="../assets/up-and-down-arrow.png"
               @click="nameBasedSort"
-              class="sort-arrow-icon"
+              style="width: 10px; cursor: pointer"
             />
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="DoB">
         <template slot="header">
-          <div class="dob_sort">
+          <div>
             <span>DoB</span>
             <img
               src="../assets/up-and-down-arrow.png"
               @click="DoBBasedSort"
-              class="sort-arrow-icon"
+              style="width: 10px; cursor: pointer"
             />
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="muncipality">
         <template slot="header">
-          <div class="muncipality_sort">
+          <div>
             <span>Muncipality</span>
             <img
               src="../assets/up-and-down-arrow.png"
               @click="muncipalityBasedSort"
-              class="sort-arrow-icon"
+              style="width: 10px; cursor: pointer"
             />
           </div>
         </template>
@@ -120,16 +120,15 @@
         </el-form-item>
         <el-form-item label="Muncipality" prop="muncipality">
           <el-select
-            v-model="form.muncipality"
+            v-model="editForm.muncipality"
             placeholder="Select Muncipality"
           >
-            <el-option label="Prizreni" value="Prizreni"></el-option>
-            <el-option label="Prishtina" value="Prishtina"></el-option>
-            <el-option label="Peja" value="Peja"></el-option>
-            <el-option label="Gjilan" value="Gjilan"></el-option>
-            <el-option label="Gjakova" value="Gjakova"></el-option>
-            <el-option label="Ferizaj" value="Ferizaj"></el-option>
-            <el-option label="Mitrovica" value="Mitrovica"></el-option>
+            <el-option
+              v-for="option in editForm.muncipalityOptions"
+              :key="option"
+              :label="option"
+              :value="option"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -181,7 +180,15 @@ export default {
         index: "",
         name: "",
         DoB: "",
-        muncipality: "",
+        muncipalityOptions: [
+          "Prizreni",
+          "Prishtina",
+          "Peja",
+          "Gjilan",
+          "Gjakova",
+          "Ferizaj",
+          "Mitrovica",
+        ],
       },
       editedRowIndex: null,
       deleteDialogVisible: false,
@@ -190,6 +197,15 @@ export default {
         name: "",
         DoB: "",
         muncipality: "",
+        muncipalityOptions: [
+          "Prizreni",
+          "Prishtina",
+          "Peja",
+          "Gjilan",
+          "Gjakova",
+          "Ferizaj",
+          "Mitrovica",
+        ],
       },
       dialogFormVisible: false,
       formLabelWidth: "120px",
@@ -212,8 +228,7 @@ export default {
     };
   },
   created() {
-    // Load data from local storage when component is created
-    const savedData = localStorage.getItem("tableData");
+    const savedData = localStorage.getItem("studentData");
     if (savedData) {
       this.tableData = JSON.parse(savedData);
     }
@@ -242,7 +257,18 @@ export default {
 
   methods: {
     editData(row) {
-      this.editForm = { ...row };
+      this.editForm = {
+        ...row,
+        muncipalityOptions: [
+          "Prizreni",
+          "Prishtina",
+          "Peja",
+          "Gjilan",
+          "Gjakova",
+          "Ferizaj",
+          "Mitrovica",
+        ],
+      };
       this.editedRowIndex = this.tableData.indexOf(row);
       this.editDialogVisible = true;
     },
@@ -251,7 +277,7 @@ export default {
         if (valid) {
           this.tableData.splice(this.editedRowIndex, 1, { ...this.editForm });
           this.cancelEdit();
-          localStorage.setItem("tableData", JSON.stringify(this.tableData));
+          localStorage.setItem("studentData", JSON.stringify(this.tableData));
         }
       });
     },
@@ -279,7 +305,7 @@ export default {
         this.tableData.splice(index, 1);
       }
       this.cancelDelete();
-      localStorage.setItem("tableData", JSON.stringify(this.tableData));
+      localStorage.setItem("studentData", JSON.stringify(this.tableData));
     },
     resetDeleteConfirmation() {
       this.rowToDelete = null;
@@ -324,12 +350,12 @@ export default {
           };
           this.tableData.push(data);
           this.dialogFormVisible = false;
-          localStorage.setItem("tableData", JSON.stringify(this.tableData));
+          localStorage.setItem("studentData", JSON.stringify(this.tableData));
         }
       });
     },
   },
-  components: { HeaderComponent, NavbarComponent },
+  components: { NavbarComponent, HeaderComponent },
 };
 </script>
 <style scoped>
@@ -357,7 +383,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 
 .search-container {
@@ -385,9 +411,6 @@ export default {
 .el-input__inner::placeholder {
   color: black;
 }
-</style>
-
-<style scoped>
 .header {
   display: flex;
   justify-content: space-between;
@@ -422,10 +445,7 @@ export default {
 .el-input .search-input {
   border-radius: 20px;
 }
-/* .nameBasedSort {
-  display: flex;
-  gap: 290px;
-} */
+
 .nameBasedSortIcon {
   width: 10px;
   cursor: pointer;

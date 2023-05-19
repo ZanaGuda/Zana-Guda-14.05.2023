@@ -18,29 +18,25 @@
         label-width="98px"
         class="login-form"
       >
-        <el-form-item
-          label="Username"
-          prop="username"
-          required
-          class="el-form__label"
-        >
+        <div class="el-form__label">
+          <p label="Username" prop="username">Username</p>
           <el-input
             v-model="form.username"
             placeholder="Enter your username"
           ></el-input>
-        </el-form-item>
-        <el-form-item
-          label="Password"
-          prop="password"
-          required
-          class="el-form__label"
-        >
+        </div>
+
+        <div class="el-form__label">
+          <p label="Password" prop="password" class="password_label">
+            Password
+          </p>
           <el-input
             type="password"
             v-model="form.password"
             placeholder="Enter your password"
           ></el-input>
-        </el-form-item>
+        </div>
+
         <el-form-item>
           <el-button type="primary" :disabled="!isFormValid" @click="login">
             <img src="../assets/login-icon.png" class="login-icon" />
@@ -146,7 +142,7 @@ export default {
 }
 
 .el-form.login-form {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 .el-form-item__label {
   width: 98px;
@@ -175,8 +171,11 @@ export default {
 .el-form__label {
   font-size: 16px;
   font-family: "Montserrat";
+  display: flex;
+  gap: 13px;
+  align-items: center;
 }
-.label.el-form-item__label:before {
-  display: none;
+.password_label {
+  margin-left: 7px;
 }
 </style>
